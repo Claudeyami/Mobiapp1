@@ -14,6 +14,10 @@ class _HomeViewState extends State<HomeView> {
   String title = "Chưa có dữ liệu";
 
   Future<void> fetchData() async {
+    setState(() {
+      title = "Đang gọi API...";
+    });
+
     final response = await http.get(
       Uri.parse("https://jsonplaceholder.typicode.com/posts/1"),
     );
@@ -21,11 +25,14 @@ class _HomeViewState extends State<HomeView> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
-        title = data["title"];
+        title =
+        "Gọi API thành công!\n\n"
+            "Tiêu đề trả về từ server:\n"
+            "${data["title"]}";
       });
     } else {
       setState(() {
-        title = "Lỗi khi gọi API";
+        title = "Gọi API thất bại!";
       });
     }
   }
